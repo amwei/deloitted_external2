@@ -2,9 +2,14 @@ node {
     def app
 
     stage('Clone repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
-
+        /* clone repo to workspace */
         checkout scm
+        echo 'install dependencies' 
+        sh 'npm install'
+        echo 'Run tests'
+        sh 'npm test'
+        echo 'Tests passed on to build Docker container'
+
     }
 
     stage('Build image') {
