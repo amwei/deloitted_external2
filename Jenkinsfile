@@ -36,7 +36,7 @@ node {
 
     stage('deploy to cluster') {
                 echo 'Get cluster credentials'
-                sh 'gcloud container clusters get-credentials amie-events-app-cluster --zone us-central1-a --project amie-events'
+                sh 'gcloud container clusters get-credentials amiecluster-1 --zone us-central1-c --project amie-events'
                 echo 'Update the image'
                 sh "kubectl set image deployment/events-external events-external=amwei/externalevent:v1.${env.BUILD_NUMBER} --record"
         }
