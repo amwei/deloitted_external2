@@ -2,8 +2,12 @@ node {
     def app
 
     stage('Clone repository') {
+        environment {
+                PORT = 8081
+        }
         /* clone repo to workspace */
         checkout scm
+        
         echo 'install dependencies' 
         sh 'npm install'
         echo 'Run tests'
