@@ -1,31 +1,26 @@
 node {
     def app
 
+// setting env variable so external default port does not conflict with jenkins
     withEnv(['PORT=8081']) {
 
-    stage('Clone repository') {
-        /* clone repo to workspace */
+    stage('Clone repository and run test') {
+// clone repo to workspace and run test
         checkout scm
-        
         echo 'install dependencies' 
         sh 'npm install'
         echo 'Run tests'
         sh 'npm test'
         echo 'Tests passed on to build Docker container'
-
     }
 
     stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
-
+//       This builds the actual image
         app = docker.build("amwei/externalevent")
     }
 
     stage('Push image') {
-        /* Finally, we'll push the image with two tags:
-         * First, the incremental build number from Jenkins
-         * Second, the 'latest' tag. */
+//  Finally, we'll push the image with two tags - the incremental build number from Jenkins, -latest tag
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("v1.${env.BUILD_NUMBER}")
             app.push("latest")
