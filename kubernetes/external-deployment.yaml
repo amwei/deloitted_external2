@@ -16,7 +16,7 @@ spec:
         app: events-external
     spec:
       containers:
-      - image: gcr.io/mar-roidtc305/external-image:v1.0.3
+      - image: amwei/externalevent:v1.28
         name: events-external
         imagePullPolicy: "Always"
         env:
