@@ -13,6 +13,7 @@ node {
         sh 'npm test'
         echo 'Tests passed on to build Docker container'
     }
+ //sonarqube not seem to work  
     stage('sonarqube scan') {
         def scannerHome = tool 'sonarqube';
         withSonarQubeEnv('sonarqube') { // If you have configured more than one global server connection, you can specify its name
