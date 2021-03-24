@@ -16,7 +16,7 @@ spec:
         app: events-external
     spec:
       containers:
-      - image: amwei/externalevent:v1.28
+      - image: amwei/externalevent:latest
         name: events-external
         imagePullPolicy: "Always"
         env:
