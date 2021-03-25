@@ -5,15 +5,13 @@ node {
     withEnv(['PORT=8081']) {
 
     stage('Clone repository and run test') {
-// clone repo to workspace and run test
         checkout scm
         echo 'install dependencies' 
         sh 'npm install'
         echo 'Run tests'
         sh 'npm test'
-        echo 'Tests passed on to build Docker container'
-    }
- //sonarqube not seem to work  
+        echo 'Tests passed - onto the next stage'
+    }  
     stage('sonarqube scan') {
         def scannerHome = tool 'sonarqube';
         withSonarQubeEnv('sonarqube') { // If you have configured more than one global server connection, you can specify its name
@@ -21,12 +19,11 @@ node {
         }
     }
     stage('Build image') {
-//       This builds the actual image
         app = docker.build("amwei/externalevent")
     }
 
     stage('Push image') {
-//  Finally, we'll push the image with two tags - the incremental build number from Jenkins, -latest tag
+//  push the image with two tags - the incremental build number from Jenkins, -latest tag
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("v1.${env.BUILD_NUMBER}")
             app.push("latest")
